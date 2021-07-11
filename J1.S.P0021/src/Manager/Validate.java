@@ -16,7 +16,9 @@ import java.util.regex.Pattern;
  * @author Khuong Hung
  */
 public class Validate {
- public static Scanner scanner = new Scanner(System.in);
+
+     public static Scanner scanner = new Scanner(System.in);
+
     static String convert(String s) {
         s = s.toLowerCase();
         String[] ss;
@@ -41,14 +43,13 @@ public class Validate {
         return s2;
     }
 
-
     public static String inputId() {
         String regex = "^[0-9a-zA-Z\\s+]+$";
         String Id;
         while (true) {
             System.out.print("Enter id: ");
             Id = scanner.nextLine().trim();
-            if(!Id.isEmpty()) {
+            if (!Id.isEmpty()) {
                 Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(Id);
                 if (matcher.find()) {
@@ -57,7 +58,7 @@ public class Validate {
                 } else {
                     System.out.println("Invalid id input !");
                 }
-            }else{
+            } else {
                 Id = null;
                 break;
             }
@@ -65,13 +66,13 @@ public class Validate {
         return Id;
     }
 
-    static String inputstudentName(){
+    static String inputstudentName() {
         String Name;
         String regex = "^[a-zA-Z\\s+]+$";
-        while (true){
+        while (true) {
             System.out.print("Enter name : ");
             Name = scanner.nextLine().replaceAll("//s+", "").trim();
-            if(!Name.isEmpty()) {
+            if (!Name.isEmpty()) {
                 Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(Name);
                 if (matcher.find()) {
@@ -80,7 +81,7 @@ public class Validate {
                 } else {
                     System.out.println("Invalid input !");
                 }
-            }else{
+            } else {
                 Name = null;
                 break;
             }
@@ -88,54 +89,57 @@ public class Validate {
         return Name;
     }
 
-    static String inputSemester(){
-        String Semester;
-        String regex = "^[1-9]+$";
-        while (true) {
+    static int inputSemester() {
+        int Semester = 0;
+        try {
+            while (true) {
                 System.out.print("Enter semester : ");
-                Semester = scanner.nextLine().trim();
-            if(!Semester.isEmpty()) {
-                Pattern pattern = Pattern.compile(regex);
-                Matcher matcher = pattern.matcher(Semester);
-                if (matcher.find()) {
-                    Semester = convert(Semester);
+                Semester = Integer.parseInt(scanner.nextLine());
+                if (Semester != 0) {
                     break;
                 } else {
-                    System.out.println("Invalid input !");
+                    Semester = 0;
+                    break;
                 }
+            }
+        } catch (Exception e) {
+            if(Semester >= 0){
             }else{
-                Semester = null;
-                break;
+                System.out.println("Invalid input");
             }
         }
         return Semester;
     }
 
-    static String inputCourseName(){
-        String CourseName;
-        String regex = "^[a-zA-Z.1-9/\\s+]+$";
-        while (true){
-            System.out.print("Enter course : ");
-            CourseName = scanner.nextLine().trim();
-            if(!CourseName.isEmpty()) {
-                Pattern pattern = Pattern.compile(regex);
-                Matcher matcher = pattern.matcher(CourseName);
-                if (matcher.find()) {
-                    CourseName = convert(CourseName);
-                    break;
+    static String inputCourseName() {
+        String CourseName = null;
+        try {
+            while (true) {
+                System.out.print("Enter course (Java, C/C++, .Net) : ");
+                CourseName = scanner.nextLine().trim();
+                if (!CourseName.isEmpty()) {
+                    if (CourseName.equals("Java")) {
+                        break;
+                    } else if (CourseName.equals("C/C++")) {
+                        break;
+                    } else if (CourseName.equals(".Net")) {
+                        break;
+                    } else {
+                        System.out.println("Course Name is incorrect");
+                    }
                 } else {
-                    System.out.println("Invalid input !");
+                    CourseName = null;
+                    break;
                 }
-            }else{
-                CourseName = null;
-                break;
             }
+        }catch (Exception e){
+            System.out.println("Invalid input !");
         }
         return CourseName;
     }
 
-    public static boolean checkReportExist(ArrayList<StudentsReport> studentsList2,String studentsName,String courseName, int totalCourse) {
-        for (int i = 0; i < studentsList2.size(); i ++) {
+    public static boolean checkReportExist(ArrayList<StudentsReport> studentsList2, String studentsName, String courseName, int totalCourse) {
+        for (int i = 0; i < studentsList2.size(); i++) {
             if (studentsName.equalsIgnoreCase(studentsList2.get(i).getStudentsName())
                     && courseName.equalsIgnoreCase(studentsList2.get(i).getCourseName())
                     && totalCourse == studentsList2.get(i).getTotalCourse()) {

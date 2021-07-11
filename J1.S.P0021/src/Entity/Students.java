@@ -10,20 +10,37 @@ package Entity;
  * @author Khuong Hung
  */
 public class Students {
-private String ID;
+    private int stt;
+    private String ID;
     private String studentName;
-    private String semester;
+    private int semester;
     private String courseName;
 
     public Students() {
 
     }
 
-    public Students(String ID, String studentName, String semester, String courseName) {
+    public Students(int stt, String ID, String studentName, int semester, String courseName) {
+        this.stt = stt;
         this.ID = ID;
         this.studentName = studentName;
         this.semester = semester;
         this.courseName = courseName;
+    }
+    
+    public Students(String ID, String studentName, int semester, String courseName) {
+        this.ID = ID;
+        this.studentName = studentName;
+        this.semester = semester;
+        this.courseName = courseName;
+    }
+
+    public int getStt() {
+        return stt;
+    }
+
+    public void setStt(int stt) {
+        this.stt = stt;
     }
 
     public String getID() {
@@ -42,11 +59,11 @@ private String ID;
         this.studentName = studentName;
     }
 
-    public String getSemester() {
+    public int getSemester() {
         return semester;
     }
 
-    public void setSemester(String semester) {
+    public void setSemester(int semester) {
         this.semester = semester;
     }
 
@@ -57,5 +74,8 @@ private String ID;
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
+
+    
+    
 
 }

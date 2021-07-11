@@ -25,6 +25,7 @@ public static Scanner scanner = new Scanner(System.in);
                     size = manager.studentList.size();
                     while (true){
                         for(int i = 1; i <= 2 ; i++) {
+
                             ID = Validate.inputId();
                             for (int j = 0; j < size; j++) {
                                 if (manager.studentList.get(j).getID().equals(ID)) {
@@ -35,10 +36,10 @@ public static Scanner scanner = new Scanner(System.in);
                             }
                             if (!isExisted) {
                                 String studentName = Validate.inputstudentName();
-                                String semester = Validate.inputSemester();
+                                int semester = Validate.inputSemester();
                                 String courseName = Validate.inputCourseName();
-                                if(ID != null && studentName != null && semester != null && courseName != null) {
-                                manager.Create(ID, studentName, semester, courseName);
+                                if(ID != null && studentName != null && semester != 0 && courseName != null) {
+                                    manager.Create(ID, studentName, semester, courseName);
                                 }else {
                                     System.out.println("you cannot add this list ! , do it again");
                                 }
@@ -54,36 +55,62 @@ public static Scanner scanner = new Scanner(System.in);
                     }
                     break;
                 case "2":
-                    manager.SortStudentByName();
+                    manager.Sort();
+                    manager.Display();
                     studentsName = Validate.inputstudentName();
                     manager.Search(studentsName);
                     break;
                 case "3":
                     isExisted = false;
+                    int stt = 0;
                     size = manager.studentList.size();
                     String option;
                     studentID = Validate.inputId();
+                    String Name1 = null,CourseName1 =  null;
+                    int Semester1 = 0;
                     for (int i = 0; i < size; i++) {
                         if (manager.studentList.get(i).getID().equals(studentID)) {
                             isExisted = true;
-                            System.out.print("Do you want to update (U) or delete (D) student : ");
-                            option = scanner.nextLine();
-                            if(option.equalsIgnoreCase("u")) {
-                                String Name = Validate.inputstudentName();
-                                String Semester = Validate.inputSemester();
-                                String CourseName = Validate.inputCourseName();
-                                manager.Update(studentID, Name,Semester,CourseName);
+                            manager.SearchUpdate(studentID);
+                            try {
+                                System.out.print("Enter number of List : ");
+                                stt = Integer.parseInt(scanner.nextLine());
+                            }catch(Exception e){
+                                System.out.println("Invalid input");
+                                manager.CleanListUpdate();
                                 break;
-                            }else if(option.equalsIgnoreCase("d")){
-                                manager.Remove(studentID);
-                                break;
-                            } else {
-                                System.out.println("Invalid chooose !");
                             }
+                            for(int j = 0; j < manager.ListUpdate.size(); j++){
+                                if(stt == manager.ListUpdate.get(j).getStt()){
+                                    studentID = manager.ListUpdate.get(j).getID();
+                                    Name1 = manager.ListUpdate.get(j).getStudentName();
+                                    CourseName1 = manager.ListUpdate.get(j).getCourseName();
+                                    Semester1 = manager.ListUpdate.get(j).getSemester();
+                                }
+                            }
+                        System.out.print("Do you want to update (U) or delete (D) student : ");
+                        option = scanner.nextLine();
+                        if (option.equalsIgnoreCase("u")) {
+                            String Name = Validate.inputstudentName();
+                            int Semester = Validate.inputSemester();
+                            String CourseName = Validate.inputCourseName();
+                            manager.Update(studentID, Name1, Semester1, CourseName1, Name, Semester, CourseName);
+                            manager.CleanListUpdate();
+                            break;
+                        } else if (option.equalsIgnoreCase("d")) {
+                            manager.Remove(studentID,Name1,CourseName1,Semester1);
+                            manager.CleanListUpdate();
+                            break;
+                        } else {
+                            System.out.println("Invalid chooose !");
+                            manager.CleanListUpdate();
+                            break;
                         }
+                    }
                     }
                     if (!isExisted) {
                         System.out.printf("Id = %s not existed.\n", studentID);
+                        manager.CleanListUpdate();
                     }
                     break;
                 case "4":
